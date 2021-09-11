@@ -1,6 +1,19 @@
 # planetwatch
 Code to make it easier to figure out earnings and taxes for planetwatch
 
+
+## Install
+Clone the repo, install python 3.7 or greater, and then install.
+
+```
+git clone https://github.com/errantp/planetwatch.git
+cd planetwatch
+pip install .
+
+```
+
+([poetry](https://python-poetry.org/) is also supported with `poetry install`)
+
 ```
 ❯ planets --help
 Usage: planets [OPTIONS]
