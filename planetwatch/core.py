@@ -1,4 +1,5 @@
 import attr
+import click
 import pandas as pd
 import requests
 from pycoingecko import CoinGeckoAPI
@@ -6,9 +7,7 @@ from pycoingecko import CoinGeckoAPI
 
 @attr.s
 class Wallet(object):
-    wallet_address = attr.ib(
-        default="GYLEOJFHACSCATPBVQ345UCMCOMSGV76X4XTVOLHGXKOCJL44YBUAHXJOY"
-    )
+    wallet_address = attr.ib()
 
     def wallet_tests(self):
         wallet_length = len(self.wallet_address)
@@ -63,10 +62,16 @@ class Wallet(object):
         return current_prices
 
 
-def main():
-    wallet = Wallet()
+@click.command()
+@click.option('--wallet', help='Planet Wallet', required=True)
+@click.option('--currency', default='usd', help='Currency to convert planets into.')
+@click.option('--csv', is_flag=True, help="Export csv of all transactions for given wallet")
+
+
+def cli(currency, csv, wallet):
+    wallet_address = wallet
+    wallet = Wallet(wallet_address=wallet_address)
     transactions = wallet.get_non_zero_transactions()
-    currency = "usd"
     prices = wallet.get_prices(currency=currency)
     results = transactions[["amount", "date"]][transactions.reward == True].merge(
         prices[[f"purchase_price_{currency}", "date"]]
@@ -79,3 +84,6 @@ def main():
     print(f"The current price in {currency} is : {current_price}")
     print(results.sum()[["amount", f'current_value_{currency}', f"purchase_value_{currency}", f"gain_{currency}"]])
     print(results.head(10))
+
+    if csv:
+        results.to_csv(f"{wallet_address}.csv", index=False)

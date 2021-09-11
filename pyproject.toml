@@ -23,7 +23,7 @@ pandas = "*"
 profile = "black"
 
 [tool.poetry.scripts]
-planet = "planetwatch.core:main"
+planets = "planetwatch.core:cli"
 
 
 [build-system]
