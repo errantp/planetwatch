@@ -1,13 +1,14 @@
 [tool.poetry]
 name = "planetwatch"
-version = "0.1.0"
+version = "0.1.1"
 description = "Code to make it easy to caluculate earnings, etc for planetwatch"
 authors = ["errantp"]
 license = "GNU General Public License v3.0"
+include = ["README.md"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
-click = ">=8.0.1"
+click = "*"
 pycoingecko = "^2.2.0"
 
 [tool.poetry.dev-dependencies]
@@ -17,7 +18,7 @@ pre-commit = "*"
 isort = "*"
 attr = "*"
 pandas = "*"
-
+streamlit = "*"
 
 [tool.isort]
 profile = "black"
