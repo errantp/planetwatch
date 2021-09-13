@@ -20,10 +20,9 @@ jobs:
       with:
         virtualenvs-create: true
         virtualenvs-in-project: true
-    - name: Configure Secrets
-    - uses: snok/install-poetry@v1
-    - run: poetry config pypi-token.pypi false "${{ secrets.PYPI_TOKEN }}"
     - name: Install
       run: poetry install --no-interaction
     - name: Publish package
-      run: poetry publish --build
+      run: |
+        poetry config pypi-token.pypi "${{ secrets.PYPI_TOKEN }}"
+        poetry publish --build
