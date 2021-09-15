@@ -19,7 +19,8 @@ pip install .
 Usage: planets [OPTIONS]
 
 Options:
-  --wallet TEXT    Planet Wallet  [required]
+  --wallet TEXT    Planet Wallet, or list of comma separated wallets
+                   [required]
   --currency TEXT  Currency to convert planets into.
   --csv            Export csv of all transactions for given wallet
   --help           Show this message and exit.
@@ -30,45 +31,81 @@ Options:
 ## Examples
 ```
 ❯ planets --wallet GYLEOJFHACSCATPBVQ345UCMCOMSGV76X4XTVOLHGXKOCJL44YBUAHXJOY --currency eur
-The current price in eur is : 0.166475
-amount                310.976000
-current_value_eur      51.769730
-purchase_value_eur     40.372615
-gain_eur               11.397115
-dtype: float64
+
+
+###### For wallet GYLEOJFHACSCATPBVQ345UCMCOMSGV76X4XTVOLHGXKOCJL44YBUAHXJOY
+The current price in eur is : 0.254848
+amount                426.144000
+current_value_eur     108.601946
+purchase_value_eur     62.867696
+gain_eur               45.734250
    amount        date  purchase_price_eur  current_value_eur  purchase_value_eur  gain_eur
-0  23.040  2021-09-10            0.159267           3.835584            3.669510  0.166074
-1  22.720  2021-09-09            0.152454           3.782312            3.463757  0.318555
-2  23.040  2021-09-08            0.149045           3.835584            3.433999  0.401585
-3  23.040  2021-09-07            0.146756           3.835584            3.381269  0.454315
-4  23.040  2021-09-06            0.135407           3.835584            3.119766  0.715818
-5  23.040  2021-09-05            0.126531           3.835584            2.915269  0.920315
-6  23.040  2021-09-04            0.123744           3.835584            2.851070  0.984514
-7  20.512  2021-09-03            0.121153           3.414735            2.485092  0.929643
-8  15.936  2021-09-02            0.120051           2.652946            1.913135  0.739810
-9   3.360  2021-09-01            0.119421           0.559356            0.401253  0.158103
+0  23.008  2021-09-15            0.227428           5.863543            5.232664  0.630879
+1  23.040  2021-09-14            0.200080           5.871698            4.609846  1.261852
+2  23.040  2021-09-14            0.200080           5.871698            4.609846  1.261852
+3  23.040  2021-09-12            0.177932           5.871698            4.099553  1.772145
+4  23.040  2021-09-11            0.171145           5.871698            3.943170  1.928528
+5  23.040  2021-09-10            0.159267           5.871698            3.669510  2.202188
+6  22.720  2021-09-09            0.152454           5.790147            3.463757  2.326390
+7  23.040  2021-09-08            0.149045           5.871698            3.433999  2.437699
+8  23.040  2021-09-07            0.146756           5.871698            3.381269  2.490429
+9  23.040  2021-09-06            0.135407           5.871698            3.119766  2.751932
+```
+
+Multiple wallets
+```
+❯ planets --wallet GYLEOJFHACSCATPBVQ345UCMCOMSGV76X4XTVOLHGXKOCJL44YBUAHXJOY,3KBG44MVZSKKOUDW7QJ2QS2FYHFIHNTLT3Q7MTQ2CLG65ZHQ6RL6ENZ7GQ --currency eur
+
+
+###### For wallet GYLEOJFHACSCATPBVQ345UCMCOMSGV76X4XTVOLHGXKOCJL44YBUAHXJOY
+The current price in eur is : 0.254848
+amount                426.144000
+current_value_eur     108.601946
+purchase_value_eur     62.867696
+gain_eur               45.734250
+   amount        date  purchase_price_eur  current_value_eur  purchase_value_eur  gain_eur
+0  23.008  2021-09-15            0.227428           5.863543            5.232664  0.630879
+1  23.040  2021-09-14            0.200080           5.871698            4.609846  1.261852
+2  23.040  2021-09-14            0.200080           5.871698            4.609846  1.261852
+3  23.040  2021-09-12            0.177932           5.871698            4.099553  1.772145
+4  23.040  2021-09-11            0.171145           5.871698            3.943170  1.928528
+
+
+###### For wallet 3KBG44MVZSKKOUDW7QJ2QS2FYHFIHNTLT3Q7MTQ2CLG65ZHQ6RL6ENZ7GQ
+The current price in eur is : 0.254848
+amount                1740.640000
+current_value_eur      443.598623
+purchase_value_eur     199.522137
+gain_eur               244.076486
+   amount        date  purchase_price_eur  current_value_eur  purchase_value_eur  gain_eur
+0   23.04  2021-09-15            0.227428           5.871698            5.239942  0.631756
+1   23.04  2021-09-14            0.200080           5.871698            4.609846  1.261852
+2   23.04  2021-09-13            0.185853           5.871698            4.282061  1.589637
+3   23.04  2021-09-12            0.177932           5.871698            4.099553  1.772145
+4   23.04  2021-09-11            0.171145           5.871698            3.943170  1.928528
 ```
 
 
 ```
 ❯ planets --wallet GYLEOJFHACSCATPBVQ345UCMCOMSGV76X4XTVOLHGXKOCJL44YBUAHXJOY --currency usd
-The current price in usd is : 0.196685
-amount                310.976000
-current_value_usd      61.164315
-purchase_value_usd     47.790114
-gain_usd               13.374201
-dtype: float64
+
+###### For wallet GYLEOJFHACSCATPBVQ345UCMCOMSGV76X4XTVOLHGXKOCJL44YBUAHXJOY
+The current price in usd is : 0.301106
+amount                426.144000
+current_value_usd     128.314515
+purchase_value_usd     74.360906
+gain_usd               53.953609
    amount        date  purchase_price_usd  current_value_usd  purchase_value_usd  gain_usd
-0  23.040  2021-09-10            0.188485           4.531622            4.342697  0.188925
-1  22.720  2021-09-09            0.180454           4.468683            4.099926  0.368757
-2  23.040  2021-09-08            0.176202           4.531622            4.059700  0.471923
-3  23.040  2021-09-07            0.174077           4.531622            4.010729  0.520894
-4  23.040  2021-09-06            0.160621           4.531622            3.700707  0.830915
-5  23.040  2021-09-05            0.150363           4.531622            3.464360  1.067263
-6  23.040  2021-09-04            0.147052           4.531622            3.388068  1.143554
-7  20.512  2021-09-03            0.143852           4.034403            2.950683  1.083720
-8  15.936  2021-09-02            0.142276           3.134372            2.267304  0.867068
-9   3.360  2021-09-01            0.141103           0.660862            0.474107  0.186755
+0  23.008  2021-09-15            0.268778           6.927847            6.184042  0.743805
+1  23.040  2021-09-14            0.236209           6.937482            5.442256  1.495226
+2  23.040  2021-09-14            0.236209           6.937482            5.442256  1.495226
+3  23.040  2021-09-12            0.210221           6.937482            4.843501  2.093982
+4  23.040  2021-09-11            0.202202           6.937482            4.658739  2.278744
+5  23.040  2021-09-10            0.188485           6.937482            4.342697  2.594785
+6  22.720  2021-09-09            0.180454           6.841128            4.099926  2.741202
+7  23.040  2021-09-08            0.176202           6.937482            4.059700  2.877782
+8  23.040  2021-09-07            0.174077           6.937482            4.010729  2.926753
+9  23.040  2021-09-06            0.160621           6.937482            3.700707  3.236775
 ```
 
 

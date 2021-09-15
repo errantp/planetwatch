@@ -83,29 +83,39 @@ class Wallet(object):
 
 
 @click.command()
-@click.option("--wallet", help="Planet Wallet", required=True)
+@click.option(
+    "--wallet", help="Planet Wallet, or list of comma separated wallets", required=True
+)
 @click.option("--currency", default="usd", help="Currency to convert planets into.")
 @click.option(
     "--csv", is_flag=True, help="Export csv of all transactions for given wallet"
 )
-@click.option("--dashboard", is_flag=True, help="Launch dashboard")
 def cli(currency, csv, wallet):
+    wallets = wallet.split(",")
+    for w in wallets:
 
-    planet_wallet = Wallet(wallet_address=wallet)
-    results, current_price = planet_wallet.get_cost(currency)
+        planet_wallet = Wallet(wallet_address=w)
+        results, current_price = planet_wallet.get_cost(currency)
+        print("\n")
+        print(f"###### For wallet {w}")
+        print(f"The current price in {currency} is : {current_price}")
+        print(
+            results.sum()[
+                [
+                    "amount",
+                    f"current_value_{currency}",
+                    f"purchase_value_{currency}",
+                    f"gain_{currency}",
+                ]
+            ].to_string()
+        )
 
-    print(f"The current price in {currency} is : {current_price}")
-    print(
-        results.sum()[
-            [
-                "amount",
-                f"current_value_{currency}",
-                f"purchase_value_{currency}",
-                f"gain_{currency}",
-            ]
-        ]
-    )
-    print(results.head(10))
+        if len(wallets) == 1:
+            n = 10
+        else:
+            n = 5
 
-    if csv:
-        results.to_csv(f"{wallet}.csv", index=False)
+        print(results.head(n).to_string())
+
+        if csv:
+            results.to_csv(f"{w}.csv", index=False)
