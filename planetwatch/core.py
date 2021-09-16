@@ -58,7 +58,7 @@ class Wallet(object):
     @classmethod
     def get_current_price(cls):
         cg = CoinGeckoAPI()
-        current_prices = cg.get_price(ids="planetwatch", vs_currencies=["usd", "eur"])[
+        current_prices = cg.get_price(ids="planetwatch", vs_currencies=cg.get_supported_vs_currencies())[
             "planetwatch"
         ]
         return current_prices

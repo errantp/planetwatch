@@ -12,15 +12,17 @@ readme = "README.md"
 python = "^3.7"
 click = "*"
 pycoingecko = "^2.2.0"
+streamlit = ">=0.88.0"
+attr = "*"
+pandas = "*"
 
 [tool.poetry.dev-dependencies]
 black = "*"
 pytest = "*"
 pre-commit = "*"
 isort = "*"
-attr = "*"
-pandas = "*"
-streamlit = "*"
+
+
 
 [tool.isort]
 profile = "black"
