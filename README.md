@@ -36,10 +36,10 @@ Options:
 ###### For wallet GYLEOJFHACSCATPBVQ345UCMCOMSGV76X4XTVOLHGXKOCJL44YBUAHXJOY
 The current price in eur is : 0.254848
 amount                426.144000
-current_value_eur     108.601946
-purchase_value_eur     62.867696
-gain_eur               45.734250
-   amount        date  purchase_price_eur  current_value_eur  purchase_value_eur  gain_eur
+current value eur     108.601946
+purchase value eur     62.867696
+gain eur               45.734250
+   amount        date  purchase price eur  current value eur  purchase value eur  gain eur
 0  23.008  2021-09-15            0.227428           5.863543            5.232664  0.630879
 1  23.040  2021-09-14            0.200080           5.871698            4.609846  1.261852
 2  23.040  2021-09-14            0.200080           5.871698            4.609846  1.261852
@@ -60,10 +60,10 @@ Multiple wallets
 ###### For wallet GYLEOJFHACSCATPBVQ345UCMCOMSGV76X4XTVOLHGXKOCJL44YBUAHXJOY
 The current price in eur is : 0.254848
 amount                426.144000
-current_value_eur     108.601946
-purchase_value_eur     62.867696
-gain_eur               45.734250
-   amount        date  purchase_price_eur  current_value_eur  purchase_value_eur  gain_eur
+current value eur     108.601946
+purchase value eur     62.867696
+gain eur               45.734250
+   amount        date  purchase price eur  current value eur  purchase value eur  gain eur
 0  23.008  2021-09-15            0.227428           5.863543            5.232664  0.630879
 1  23.040  2021-09-14            0.200080           5.871698            4.609846  1.261852
 2  23.040  2021-09-14            0.200080           5.871698            4.609846  1.261852
@@ -74,10 +74,10 @@ gain_eur               45.734250
 ###### For wallet 3KBG44MVZSKKOUDW7QJ2QS2FYHFIHNTLT3Q7MTQ2CLG65ZHQ6RL6ENZ7GQ
 The current price in eur is : 0.254848
 amount                1740.640000
-current_value_eur      443.598623
-purchase_value_eur     199.522137
-gain_eur               244.076486
-   amount        date  purchase_price_eur  current_value_eur  purchase_value_eur  gain_eur
+current value eur      443.598623
+purchase value eur     199.522137
+gain eur               244.076486
+   amount        date  purchase price eur  current value eur  purchase value eur  gain eur
 0   23.04  2021-09-15            0.227428           5.871698            5.239942  0.631756
 1   23.04  2021-09-14            0.200080           5.871698            4.609846  1.261852
 2   23.04  2021-09-13            0.185853           5.871698            4.282061  1.589637
@@ -92,10 +92,10 @@ gain_eur               244.076486
 ###### For wallet GYLEOJFHACSCATPBVQ345UCMCOMSGV76X4XTVOLHGXKOCJL44YBUAHXJOY
 The current price in usd is : 0.301106
 amount                426.144000
-current_value_usd     128.314515
-purchase_value_usd     74.360906
-gain_usd               53.953609
-   amount        date  purchase_price_usd  current_value_usd  purchase_value_usd  gain_usd
+current value usd     128.314515
+purchase value usd     74.360906
+gain usd               53.953609
+   amount        date  purchase price usd  current value usd  purchase value usd  gain usd
 0  23.008  2021-09-15            0.268778           6.927847            6.184042  0.743805
 1  23.040  2021-09-14            0.236209           6.937482            5.442256  1.495226
 2  23.040  2021-09-14            0.236209           6.937482            5.442256  1.495226

@@ -1,7 +1,9 @@
-import streamlit as st
 import datetime
+
+import streamlit as st
 import yaml
 from pycoingecko import CoinGeckoAPI
+
 from planetwatch.core import Wallet
 
 st.set_page_config(
@@ -10,7 +12,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 """
-# Planetwatch rewards analysis
+# Planetwatch reward analysis
 """
 
 """
@@ -41,7 +43,10 @@ with st.form(key="wallets"):
     if input_type == "Upload":
         uploaded_file = st.file_uploader("#Choose a Yaml file", type="yaml")
     else:
-        n_wallets = st.text_area("Enter wallets, one per line")
+        n_wallets = st.text_area(
+            "Enter wallets, one per line",
+            value="GYLEOJFHACSCATPBVQ345UCMCOMSGV76X4XTVOLHGXKOCJL44YBUAHXJOY",
+        )
         uploaded_file = None
     submit_button = st.form_submit_button(label="Submit")
 
@@ -54,23 +59,41 @@ if submit_button:
         doc = {}
         for k, v in enumerate(wallet_list):
             doc[f"wallet_{k}"] = v
+    all_summary = []
 
+    """
+    ## Summary of all wallets combined
+    """
+    progress_bar = st.progress(0)
+    all_wallets_slot = st.empty()
+    i = 0
     for key, value in doc.items():
+        i = i + 1
+        progress_bar.progress(i / len(doc))
+        all_wallets_slot.text("Running...")
         planet_wallet = Wallet(wallet_address=value)
         results, current_price = planet_wallet.get_cost(currency)
-        
+
         st.markdown(f"### For {key}")
         st.markdown(f"Address {value}")
         st.markdown(f"The current price in __{currency}__ is : {current_price}")
         summary = results.sum()[
             [
                 "amount",
-                f"current_value_{currency}",
-                f"purchase_value_{currency}",
-                f"gain_{currency}",
+                f"current value {currency}",
+                f"purchase value {currency}",
+                f"gain {currency}",
             ]
         ].rename("Results")
         summary
-    
+        all_summary.append(summary)
         results
+        st.download_button(
+            label="Press to Download",
+            data=results.to_csv(index=False).encode("utf-8"),
+            file_name=f"{value}.csv",
+            mime="text/csv",
+            key=i,
+        )
 
+    all_wallets_slot.dataframe(sum(all_summary))

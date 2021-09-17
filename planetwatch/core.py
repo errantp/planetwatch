@@ -48,7 +48,7 @@ class Wallet(object):
             id="planetwatch", vs_currency=currency, days=89
         )["prices"]
         prices = pd.DataFrame(
-            prices, columns=["timestamp", f"purchase_price_{currency}"]
+            prices, columns=["timestamp", f"purchase price {currency}"]
         )
         data = pd.to_datetime(prices.timestamp, unit="ms")
         prices["date"] = data.dt.date
@@ -58,26 +58,26 @@ class Wallet(object):
     @classmethod
     def get_current_price(cls):
         cg = CoinGeckoAPI()
-        current_prices = cg.get_price(ids="planetwatch", vs_currencies=cg.get_supported_vs_currencies())[
-            "planetwatch"
-        ]
+        current_prices = cg.get_price(
+            ids="planetwatch", vs_currencies=cg.get_supported_vs_currencies()
+        )["planetwatch"]
         return current_prices
 
     def get_cost(self, currency):
         transactions = self.get_non_zero_transactions()
         prices = self.get_prices(currency=currency)
         results = transactions[["amount", "date"]][transactions.reward == True].merge(
-            prices[[f"purchase_price_{currency}", "date"]]
+            prices[[f"purchase price {currency}", "date"]]
         )
         current_price = Wallet.get_current_price()[currency]
-        results[f"current_value_{currency}"] = (
+        results[f"current value {currency}"] = (
             Wallet.get_current_price()[currency] * results["amount"]
         )
-        results[f"purchase_value_{currency}"] = (
-            results[f"purchase_price_{currency}"] * results["amount"]
+        results[f"purchase value {currency}"] = (
+            results[f"purchase price {currency}"] * results["amount"]
         )
-        results[f"gain_{currency}"] = (
-            results[f"current_value_{currency}"] - results[f"purchase_value_{currency}"]
+        results[f"gain {currency}"] = (
+            results[f"current value {currency}"] - results[f"purchase value {currency}"]
         )
         return results, current_price
 
@@ -103,9 +103,9 @@ def cli(currency, csv, wallet):
             results.sum()[
                 [
                     "amount",
-                    f"current_value_{currency}",
-                    f"purchase_value_{currency}",
-                    f"gain_{currency}",
+                    f"current value {currency}",
+                    f"purchase value {currency}",
+                    f"gain {currency}",
                 ]
             ].to_string()
         )

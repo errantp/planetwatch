@@ -21,6 +21,7 @@ black = "*"
 pytest = "*"
 pre-commit = "*"
 isort = "*"
+watchdog = "^2.1.5"
 
 
 
