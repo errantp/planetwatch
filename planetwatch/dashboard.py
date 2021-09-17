@@ -2,6 +2,7 @@ import datetime
 
 import streamlit as st
 import yaml
+from millify import millify
 from pycoingecko import CoinGeckoAPI
 
 from planetwatch.core import Wallet
@@ -66,16 +67,18 @@ if submit_button:
     """
     progress_bar = st.progress(0)
     all_wallets_slot = st.empty()
+    price_col, total_col = st.columns(2)
+    value_col, gains_col = st.columns(2)
+
     i = 0
     for key, value in doc.items():
         i = i + 1
         progress_bar.progress(i / len(doc))
-        all_wallets_slot.text("Running...")
         planet_wallet = Wallet(wallet_address=value)
         results, current_price = planet_wallet.get_cost(currency)
 
         st.markdown(f"### For {key}")
-        st.markdown(f"Address {value}")
+        st.markdown(f"Address [{value}](https://algoexplorer.io/address/{value})")
         st.markdown(f"The current price in __{currency}__ is : {current_price}")
         summary = results.sum()[
             [
@@ -96,4 +99,13 @@ if submit_button:
             key=i,
         )
 
-    all_wallets_slot.dataframe(sum(all_summary))
+    summary = sum(all_summary)
+    price_col.metric(f"Planet Price: {currency}", millify(current_price, precision=2))
+    total_col.metric("Total Planets Rewarded", millify(summary.amount, precision=2))
+    value_col.metric(
+        f"Total Value: {currency}",
+        millify(summary[f"current value {currency}"], precision=2),
+    )
+    gains_col.metric(
+        f"Total Gains: {currency}", millify(summary[f"gain {currency}"], precision=2)
+    )

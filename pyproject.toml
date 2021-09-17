@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "planetwatch"
-version = "0.1.3"
+version = "0.1.4"
 description = "Code to make it easy to calculate earnings, etc for planetwatch"
 authors = ["errantp"]
 license = "GNU General Public License v3.0"
@@ -15,6 +15,7 @@ pycoingecko = "^2.2.0"
 streamlit = ">=0.88.0"
 attr = "*"
 pandas = "*"
+millify = "^0.1.1"
 
 [tool.poetry.dev-dependencies]
 black = "*"

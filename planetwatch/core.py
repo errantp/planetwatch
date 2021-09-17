@@ -8,6 +8,8 @@ from pycoingecko import CoinGeckoAPI
 @attr.s
 class Wallet(object):
     wallet_address = attr.ib()
+    cg = CoinGeckoAPI()
+    supported_vs_currencies = attr.ib(default=cg.get_supported_vs_currencies())
 
     def wallet_tests(self):
         wallet_length = len(self.wallet_address)
@@ -55,11 +57,10 @@ class Wallet(object):
         prices["hour"] = data.dt.hour
         return prices[prices.hour == 12]
 
-    @classmethod
-    def get_current_price(cls):
+    def get_current_price(self):
         cg = CoinGeckoAPI()
         current_prices = cg.get_price(
-            ids="planetwatch", vs_currencies=cg.get_supported_vs_currencies()
+            ids="planetwatch", vs_currencies=self.supported_vs_currencies
         )["planetwatch"]
         return current_prices
 
@@ -69,10 +70,8 @@ class Wallet(object):
         results = transactions[["amount", "date"]][transactions.reward == True].merge(
             prices[[f"purchase price {currency}", "date"]]
         )
-        current_price = Wallet.get_current_price()[currency]
-        results[f"current value {currency}"] = (
-            Wallet.get_current_price()[currency] * results["amount"]
-        )
+        current_price = self.get_current_price()[currency]
+        results[f"current value {currency}"] = current_price * results["amount"]
         results[f"purchase value {currency}"] = (
             results[f"purchase price {currency}"] * results["amount"]
         )
