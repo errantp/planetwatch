@@ -44,7 +44,8 @@ class Wallet(object):
         result["date"] = pd.to_datetime(result.timestamp, unit="s").dt.date
         return result
 
-    def get_prices(self, currency="usd"):
+    @classmethod
+    def get_prices(cls, currency="usd"):
         cg = CoinGeckoAPI()
         prices = cg.get_coin_market_chart_by_id(
             id="planetwatch", vs_currency=currency, days=89
@@ -64,9 +65,8 @@ class Wallet(object):
         )["planetwatch"]
         return current_prices
 
-    def get_cost(self, currency):
+    def get_cost(self, currency, prices):
         transactions = self.get_non_zero_transactions()
-        prices = self.get_prices(currency=currency)
         results = transactions[["amount", "date"]][transactions.reward == True].merge(
             prices[[f"purchase price {currency}", "date"]]
         )
@@ -94,7 +94,8 @@ def cli(currency, csv, wallet):
     for w in wallets:
 
         planet_wallet = Wallet(wallet_address=w)
-        results, current_price = planet_wallet.get_cost(currency)
+        prices = Wallet.get_prices(currency=currency)
+        results, current_price = planet_wallet.get_cost(currency, prices)
         print("\n")
         print(f"###### For wallet {w}")
         print(f"The current price in {currency} is : {current_price}")

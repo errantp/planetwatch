@@ -1,4 +1,5 @@
 import datetime
+from datetime import datetime
 
 import streamlit as st
 import yaml
@@ -26,6 +27,12 @@ You can either manually provide wallet address, or upload a yaml file with the f
 def currencies():
     cg = CoinGeckoAPI()
     return cg.get_supported_vs_currencies()
+
+
+@st.cache(suppress_st_warning=True)
+def get_cached_price(date, currency):
+    st.info(f"Pulling fresh price data for {date}")
+    return Wallet.get_prices(currency=currency)
 
 
 st.code(
@@ -75,7 +82,10 @@ if submit_button:
         i = i + 1
         progress_bar.progress(i / len(doc))
         planet_wallet = Wallet(wallet_address=value)
-        results, current_price = planet_wallet.get_cost(currency)
+
+        date = datetime.today().strftime("%Y-%m-%d")
+        prices = get_cached_price(date, currency)
+        results, current_price = planet_wallet.get_cost(currency, prices)
 
         st.markdown(f"### For {key}")
         st.markdown(f"Address [{value}](https://algoexplorer.io/address/{value})")
