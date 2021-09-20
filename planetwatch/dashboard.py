@@ -1,4 +1,4 @@
-import datetime
+import numbers
 from datetime import datetime
 
 import streamlit as st
@@ -12,6 +12,7 @@ st.set_page_config(
     page_title="Planetwatch: Insights",
     page_icon=":bar_chart:",
     initial_sidebar_state="expanded",
+    layout="centered",
 )
 """
 # Planetwatch reward analysis
@@ -33,6 +34,16 @@ def currencies():
 def get_cached_price(date, currency):
     st.info(f"Pulling fresh price data for {date}")
     return Wallet.get_prices(currency=currency)
+
+
+def color_negative_red(val):
+    """
+    Takes a scalar and returns a string with
+    the css property `'color: red'` for negative
+    strings, black otherwise.
+    """
+    color = "red" if isinstance(val, numbers.Number) and val < 0 else "auto"
+    return "color: %s" % color
 
 
 st.code(
@@ -100,7 +111,18 @@ if submit_button:
         ].rename("Results")
         summary
         all_summary.append(summary)
-        results
+        st.dataframe(
+            results[
+                [
+                    "date",
+                    "amount",
+                    f"current value {currency}",
+                    f"gain {currency}",
+                    f"purchase value {currency}",
+                    f"purchase price {currency}",
+                ]
+            ].style.applymap(color_negative_red)
+        )
         st.download_button(
             label="Press to Download",
             data=results.to_csv(index=False).encode("utf-8"),
