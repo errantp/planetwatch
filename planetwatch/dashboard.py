@@ -21,6 +21,7 @@ st.set_page_config(
 """
 ### Enter Wallet(s)
 You can either manually provide wallet address, or upload a yaml file with the following format.
+The advantage of the yaml is that you can provide user friendly names to go along with each address.
 """
 
 
@@ -141,3 +142,19 @@ if submit_button:
     gains_col.metric(
         f"Total Gains: {currency}", millify(summary[f"gain {currency}"], precision=2)
     )
+
+
+with st.sidebar:
+    """
+    This web app is completely open source.
+    If you would like to donate planets to the app owner please send planets [here](https://algoexplorer.io/address/GYLEOJFHACSCATPBVQ345UCMCOMSGV76X4XTVOLHGXKOCJL44YBUAHXJOY)
+
+    Relevant links:
+    - [Source Code](https://github.com/errantp/planetwatch)
+    - [Python App](https://pypi.org/project/planetwatch/)
+    - [Reddit](https://www.reddit.com/r/PlanetWatchers/)
+    - [Discord](https://disboard.org/server/855002894717419521)
+    - [Telegram](https://t.me/planetwatch)
+
+
+    """
