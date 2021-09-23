@@ -37,9 +37,9 @@ Options:
 The current price in eur is : 0.254848
 amount                426.144000
 current value eur     108.601946
-purchase value eur     62.867696
+initial value eur     62.867696
 gain eur               45.734250
-   amount        date  purchase price eur  current value eur  purchase value eur  gain eur
+   amount        date  initial price eur  current value eur  initial value eur  gain eur
 0  23.008  2021-09-15            0.227428           5.863543            5.232664  0.630879
 1  23.040  2021-09-14            0.200080           5.871698            4.609846  1.261852
 2  23.040  2021-09-14            0.200080           5.871698            4.609846  1.261852
@@ -61,9 +61,9 @@ Multiple wallets
 The current price in eur is : 0.254848
 amount                426.144000
 current value eur     108.601946
-purchase value eur     62.867696
+initial value eur     62.867696
 gain eur               45.734250
-   amount        date  purchase price eur  current value eur  purchase value eur  gain eur
+   amount        date  initial price eur  current value eur  initial value eur  gain eur
 0  23.008  2021-09-15            0.227428           5.863543            5.232664  0.630879
 1  23.040  2021-09-14            0.200080           5.871698            4.609846  1.261852
 2  23.040  2021-09-14            0.200080           5.871698            4.609846  1.261852
@@ -75,9 +75,9 @@ gain eur               45.734250
 The current price in eur is : 0.254848
 amount                1740.640000
 current value eur      443.598623
-purchase value eur     199.522137
+initial value eur     199.522137
 gain eur               244.076486
-   amount        date  purchase price eur  current value eur  purchase value eur  gain eur
+   amount        date  initial price eur  current value eur  initial value eur  gain eur
 0   23.04  2021-09-15            0.227428           5.871698            5.239942  0.631756
 1   23.04  2021-09-14            0.200080           5.871698            4.609846  1.261852
 2   23.04  2021-09-13            0.185853           5.871698            4.282061  1.589637
@@ -93,9 +93,9 @@ gain eur               244.076486
 The current price in usd is : 0.301106
 amount                426.144000
 current value usd     128.314515
-purchase value usd     74.360906
+initial value usd     74.360906
 gain usd               53.953609
-   amount        date  purchase price usd  current value usd  purchase value usd  gain usd
+   amount        date  initial price usd  current value usd  initial value usd  gain usd
 0  23.008  2021-09-15            0.268778           6.927847            6.184042  0.743805
 1  23.040  2021-09-14            0.236209           6.937482            5.442256  1.495226
 2  23.040  2021-09-14            0.236209           6.937482            5.442256  1.495226

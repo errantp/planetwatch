@@ -51,7 +51,7 @@ class Wallet(object):
             id="planetwatch", vs_currency=currency, days=89
         )["prices"]
         prices = pd.DataFrame(
-            prices, columns=["timestamp", f"purchase price {currency}"]
+            prices, columns=["timestamp", f"initial price {currency}"]
         )
         data = pd.to_datetime(prices.timestamp, unit="ms")
         prices["date"] = data.dt.date
@@ -68,15 +68,15 @@ class Wallet(object):
     def get_cost(self, currency, prices):
         transactions = self.get_non_zero_transactions()
         results = transactions[["amount", "date"]][transactions.reward == True].merge(
-            prices[[f"purchase price {currency}", "date"]]
+            prices[[f"initial price {currency}", "date"]]
         )
         current_price = self.get_current_price()[currency]
         results[f"current value {currency}"] = current_price * results["amount"]
-        results[f"purchase value {currency}"] = (
-            results[f"purchase price {currency}"] * results["amount"]
+        results[f"initial value {currency}"] = (
+            results[f"initial price {currency}"] * results["amount"]
         )
         results[f"gain {currency}"] = (
-            results[f"current value {currency}"] - results[f"purchase value {currency}"]
+            results[f"current value {currency}"] - results[f"initial value {currency}"]
         )
         return results, current_price
 
@@ -104,7 +104,7 @@ def cli(currency, csv, wallet):
                 [
                     "amount",
                     f"current value {currency}",
-                    f"purchase value {currency}",
+                    f"initial value {currency}",
                     f"gain {currency}",
                 ]
             ].to_string()

@@ -106,7 +106,7 @@ if submit_button:
             [
                 "amount",
                 f"current value {currency}",
-                f"purchase value {currency}",
+                f"initial value {currency}",
                 f"gain {currency}",
             ]
         ].rename("Results")
@@ -119,8 +119,8 @@ if submit_button:
                     "amount",
                     f"current value {currency}",
                     f"gain {currency}",
-                    f"purchase value {currency}",
-                    f"purchase price {currency}",
+                    f"initial value {currency}",
+                    f"initial price {currency}",
                 ]
             ].style.applymap(color_negative_red)
         )
