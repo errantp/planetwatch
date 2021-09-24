@@ -9,7 +9,7 @@ from pycoingecko import CoinGeckoAPI
 from planetwatch.core import Wallet
 
 st.set_page_config(
-    page_title="Planetwatch: Insights",
+    page_title="Planetwatch reward analysis",
     page_icon=":bar_chart:",
     initial_sidebar_state="expanded",
     layout="centered",
@@ -31,7 +31,7 @@ def currencies():
     return cg.get_supported_vs_currencies()
 
 
-@st.cache(suppress_st_warning=True)
+@st.cache(suppress_st_warning=True, ttl=60*1)
 def get_cached_price(date, currency):
     st.info(f"Pulling fresh price data for {date}")
     return Wallet.get_prices(currency=currency)
