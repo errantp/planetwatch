@@ -1,6 +1,7 @@
 import numbers
 from datetime import datetime
 
+import altair as alt
 import streamlit as st
 import yaml
 from millify import millify
@@ -31,7 +32,7 @@ def currencies():
     return cg.get_supported_vs_currencies()
 
 
-@st.cache(suppress_st_warning=True, ttl=60*1)
+@st.cache(suppress_st_warning=True, ttl=60 * 1)
 def get_cached_price(date, currency):
     st.info(f"Pulling fresh price data for {date}")
     return Wallet.get_prices(currency=currency)
@@ -124,6 +125,31 @@ if submit_button:
                 ]
             ].style.applymap(color_negative_red)
         )
+
+        source = results[["date", "amount"]]
+        c = (
+            alt.Chart(source)
+            .mark_bar()
+            .encode(
+                x=alt.X(
+                    "date(date):T",
+                    axis=alt.Axis(title="Date".upper(), format=("%-m/%-d")),
+                ),
+                y=alt.Y(
+                    field="amount",
+                    title="Planets Rewarded",
+                    aggregate="sum",
+                    type="quantitative",
+                ),
+                tooltip=[
+                    alt.Tooltip("amount:Q", title="Planets Rewarded", aggregate="sum"),
+                    alt.Tooltip("date:T", title="Date"),
+                ],
+            )
+            .configure_axis(labelFontSize=20, titleFontSize=20)
+            .properties(width=800)
+        )
+        st.altair_chart(c, use_container_width=True)
         st.download_button(
             label="Press to Download",
             data=results.to_csv(index=False).encode("utf-8"),
