@@ -1,3 +1,5 @@
+import datetime as dt
+
 import attr
 import click
 import pandas as pd
@@ -47,9 +49,29 @@ class Wallet(object):
     @classmethod
     def get_prices(cls, currency="usd"):
         cg = CoinGeckoAPI()
-        prices = cg.get_coin_market_chart_by_id(
-            id="planetwatch", vs_currency=currency, days=89
-        )["prices"]
+        now = pd.Timestamp.utcnow()
+        start_date = pd.to_datetime("2021-06-01 12:00", utc=True)
+        end_date = start_date + dt.timedelta(days=85)
+        prices = []
+        while end_date < now:
+            temp_prices = cg.get_coin_market_chart_range_by_id(
+                id="planetwatch",
+                vs_currency=currency,
+                from_timestamp=start_date.timestamp(),
+                to_timestamp=end_date.timestamp(),
+            )["prices"]
+            prices = prices + temp_prices
+            start_date = end_date + dt.timedelta(seconds=1)
+            end_date = start_date + dt.timedelta(days=85)
+            if end_date > now:
+                temp_prices = cg.get_coin_market_chart_range_by_id(
+                    id="planetwatch",
+                    vs_currency=currency,
+                    from_timestamp=start_date.timestamp(),
+                    to_timestamp=end_date.timestamp(),
+                )["prices"]
+                prices = prices + temp_prices
+
         prices = pd.DataFrame(
             prices, columns=["timestamp", f"initial price {currency}"]
         )
@@ -67,8 +89,10 @@ class Wallet(object):
 
     def get_cost(self, currency, prices):
         transactions = self.get_non_zero_transactions()
-        results = transactions[["amount", "date"]][transactions.reward == True].merge(
-            prices[[f"initial price {currency}", "date"]]
+        results = (
+            transactions[["amount", "date"]][transactions.reward == True]
+            .merge(prices[[f"initial price {currency}", "date"]], how="left")
+            .interpolate()
         )
         current_price = self.get_current_price()[currency]
         results[f"current value {currency}"] = current_price * results["amount"]

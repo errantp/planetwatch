@@ -32,7 +32,7 @@ def currencies():
     return cg.get_supported_vs_currencies()
 
 
-@st.cache(suppress_st_warning=True, ttl=60 * 1)
+@st.cache(suppress_st_warning=True, ttl=60 * 2)
 def get_cached_price(date, currency):
     st.info(f"Pulling fresh price data for {date}")
     return Wallet.get_prices(currency=currency)
