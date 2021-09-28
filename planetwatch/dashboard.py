@@ -2,6 +2,7 @@ import numbers
 from datetime import datetime
 
 import altair as alt
+import pandas as pd
 import streamlit as st
 import yaml
 from millify import millify
@@ -81,6 +82,7 @@ if submit_button:
         for k, v in enumerate(wallet_list):
             doc[f"wallet_{k}"] = v
     all_summary = []
+    all_results = []
 
     """
     ## Summary of all wallets combined
@@ -89,6 +91,7 @@ if submit_button:
     all_wallets_slot = st.empty()
     price_col, total_col = st.columns(2)
     value_col, gains_col = st.columns(2)
+    planet_chart = st.empty()
 
     i = 0
     for key, value in doc.items():
@@ -125,14 +128,14 @@ if submit_button:
                 ]
             ].style.applymap(color_negative_red)
         )
-
+        all_results.append(results)
         source = results[["date", "amount"]]
         c = (
             alt.Chart(source)
             .mark_bar()
             .encode(
                 x=alt.X(
-                    "date(date):T",
+                    "yearmonthdate(date):T",
                     axis=alt.Axis(title="Date".upper(), format=("%-m/%-d")),
                 ),
                 y=alt.Y(
@@ -159,6 +162,34 @@ if submit_button:
         )
 
     summary = sum(all_summary)
+    all_results = pd.concat(all_results, ignore_index=True)
+    grouped_results = all_results.groupby("date", as_index=False).sum()
+    grouped_results["running_total"] = grouped_results["amount"].cumsum()[::-1]
+
+    source = grouped_results[["date", "running_total"]]
+    source
+    c = (
+        alt.Chart(source)
+        .mark_bar()
+        .encode(
+            x=alt.X(
+                "yearmonthdate(date):T",
+                axis=alt.Axis(labelAngle=-45, title="Date".upper(), format=("%-m/%-d")),
+            ),
+            y=alt.Y(
+                field="running_total",
+                title="Total Rewarded Planets",
+                type="quantitative",
+            ),
+            tooltip=[
+                alt.Tooltip("running_total:Q", title="Total Rewarded Planets"),
+                alt.Tooltip("date:T", title="Date"),
+            ],
+        )
+        .configure_axis(labelFontSize=20, titleFontSize=20)
+        .properties(width=800)
+    )
+    planet_chart.altair_chart(c, use_container_width=True)
     price_col.metric(f"Planet Price: {currency}", millify(current_price, precision=2))
     total_col.metric("Total Planets Rewarded", millify(summary.amount, precision=2))
     value_col.metric(
