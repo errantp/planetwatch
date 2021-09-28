@@ -149,7 +149,7 @@ if submit_button:
                     alt.Tooltip("date:T", title="Date"),
                 ],
             )
-            .configure_axis(labelFontSize=20, titleFontSize=20)
+            .configure_axis(labelFontSize=16, titleFontSize=16)
             .properties(width=800)
         )
         st.altair_chart(c, use_container_width=True)
@@ -186,7 +186,7 @@ if submit_button:
                 alt.Tooltip("date:T", title="Date"),
             ],
         )
-        .configure_axis(labelFontSize=20, titleFontSize=20)
+        .configure_axis(labelFontSize=16, titleFontSize=16)
         .properties(width=800)
     )
     planet_chart.altair_chart(c, use_container_width=True)
