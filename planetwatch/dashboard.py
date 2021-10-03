@@ -92,6 +92,7 @@ if submit_button:
     price_col, total_col = st.columns(2)
     value_col, gains_col = st.columns(2)
     planet_chart = st.empty()
+    download_summary = st.empty()
 
     i = 0
     for key, value in doc.items():
@@ -167,7 +168,6 @@ if submit_button:
     grouped_results["running_total"] = grouped_results["amount"].cumsum()[::-1]
 
     source = grouped_results[["date", "running_total"]]
-    source
     c = (
         alt.Chart(source)
         .mark_bar()
@@ -198,6 +198,23 @@ if submit_button:
     )
     gains_col.metric(
         f"Total Gains: {currency}", millify(summary[f"gain {currency}"], precision=2)
+    )
+
+    combined_wallet_info = all_results.groupby("date", as_index=False).agg(
+        **{
+            "Total Rewards": ("amount", "sum"),
+            f"initial value {currency}": (f"initial value {currency}", "max"),
+            f"initial price {currency}": (f"initial price {currency}", "max"),
+            f"gain {currency}": (f"gain {currency}", "max"),
+            f"current value {currency}": (f"current value {currency}", "max"),
+        }
+    )
+    download_summary.download_button(
+        label="Press to Download combined wallet data",
+        data=combined_wallet_info.to_csv(index=False).encode("utf-8"),
+        file_name=f"wallet_summary_{max(source.date)}.csv",
+        mime="text/csv",
+        key="download_summary",
     )
 
 
