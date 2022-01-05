@@ -30,20 +30,24 @@ class Wallet(object):
             data["amount"] = (
                 transaction["asset-transfer-transaction"]["amount"] / 1000000
             )
-            if (
-                transaction["sender"]
-                == "ZW3ISEHZUHPO7OZGMKLKIIMKVICOUDRCERI454I3DB2BH52HGLSO67W754"
-            ):
+            if transaction["sender"] in [
+                "ZW3ISEHZUHPO7OZGMKLKIIMKVICOUDRCERI454I3DB2BH52HGLSO67W754",
+                "X2W76H7A57BNGV6UQNMYQHCFOK4BI4DE6AG7V7BIGIYSNGCPBO44JXRMHA",
+            ]:
                 reward = True
             else:
                 reward = False
 
             data["reward"] = reward
             data["timestamp"] = transaction["round-time"]
+            data["transaction"] = transaction["id"]
             result.append(data)
 
         result = pd.DataFrame(result)
-        result["date"] = pd.to_datetime(result.timestamp, unit="s").dt.date
+        temp_df = pd.to_datetime(result.timestamp, unit="s")
+        result["date"] = temp_df.dt.date
+        result["hour"] = temp_df.dt.hour
+        result["timestamp"] = temp_df
         return result
 
     @classmethod
@@ -78,7 +82,7 @@ class Wallet(object):
         data = pd.to_datetime(prices.timestamp, unit="ms")
         prices["date"] = data.dt.date
         prices["hour"] = data.dt.hour
-        return prices[prices.hour == 12]
+        return prices
 
     def get_current_price(self):
         cg = CoinGeckoAPI()
@@ -90,8 +94,10 @@ class Wallet(object):
     def get_cost(self, currency, prices):
         transactions = self.get_non_zero_transactions()
         results = (
-            transactions[["amount", "date"]][transactions.reward == True]
-            .merge(prices[[f"initial price {currency}", "date"]], how="left")
+            transactions[["transaction", "timestamp", "amount", "date", "hour"]][
+                transactions.reward == True
+            ]
+            .merge(prices[[f"initial price {currency}", "date", "hour"]], how="left")
             .interpolate()
         )
         current_price = self.get_current_price()[currency]
