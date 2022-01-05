@@ -8,6 +8,7 @@ import yaml
 from millify import millify
 from pycoingecko import CoinGeckoAPI
 
+
 from planetwatch.core import Wallet
 
 st.set_page_config(
@@ -120,7 +121,7 @@ if submit_button:
         st.dataframe(
             results[
                 [
-                    "date",
+                    "timestamp",
                     "amount",
                     f"current value {currency}",
                     f"gain {currency}",
