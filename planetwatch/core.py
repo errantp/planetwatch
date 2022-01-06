@@ -5,6 +5,7 @@ import click
 import pandas as pd
 import requests
 from pycoingecko import CoinGeckoAPI
+from algosdk.v2client import indexer
 
 
 @attr.s
@@ -21,11 +22,31 @@ class Wallet(object):
             )
 
     def get_non_zero_transactions(self):
-        response = requests.get(
-            f"https://algoexplorerapi.io/idx2/v2/transactions?address={self.wallet_address}&asset-id=27165954&currency-greater-than=0"
-        ).json()
+        nexttoken = ""
+        numtx = 1
+
+        # create an algod client
+        indexer_token = ""
+        indexer_address = "https://algoindexer.algoexplorerapi.io/"
+        myindexer = indexer.IndexerClient(indexer_token, indexer_address)
+        transactions = []
+
+        while numtx > 0:
+            response = myindexer.search_asset_transactions(
+                address=self.wallet_address,
+                asset_id=27165954,
+                min_amount=10,
+                next_page=nexttoken,
+                limit=1000,
+            )
+            transaction_page = response["transactions"]
+            numtx = len(transaction_page)
+            if numtx > 0:
+                transactions = transactions + transaction_page
+                nexttoken = response["next-token"]
+        
         result = []
-        for transaction in response["transactions"]:
+        for transaction in transactions:
             data = {}
             data["amount"] = (
                 transaction["asset-transfer-transaction"]["amount"] / 1000000
