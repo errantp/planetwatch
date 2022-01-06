@@ -204,10 +204,10 @@ if submit_button:
     combined_wallet_info = all_results.groupby("date", as_index=False).agg(
         **{
             "Total Rewards": ("amount", "sum"),
-            f"initial value {currency}": (f"initial value {currency}", "max"),
-            f"initial price {currency}": (f"initial price {currency}", "max"),
+            f"initial value {currency}": (f"initial value {currency}", "sum"),
+            f"initial price {currency}": (f"initial price {currency}", "mean"),
             f"gain {currency}": (f"gain {currency}", "max"),
-            f"current value {currency}": (f"current value {currency}", "max"),
+            f"current value {currency}": (f"current value {currency}", "sum"),
         }
     )
     download_summary.download_button(
