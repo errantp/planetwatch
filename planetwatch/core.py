@@ -119,8 +119,8 @@ class Wallet(object):
                 transactions.reward == True
             ]
             .merge(prices[[f"initial price {currency}", "date", "hour"]], how="left")
-            .interpolate()
         )
+        results[f"initial price {currency}"] = results[f"initial price {currency}"].interpolate()
         current_price = self.get_current_price()[currency]
         results[f"current value {currency}"] = current_price * results["amount"]
         results[f"initial value {currency}"] = (
