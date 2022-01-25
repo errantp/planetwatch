@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "planetwatch"
-version = "0.1.8"
+version = "0.1.9"
 description = "Code to make it easy to calculate earnings, etc for planetwatch"
 authors = ["errantp"]
 license = "GNU General Public License v3.0"
